@@ -1,5 +1,3 @@
-import jdk.jshell.execution.Util;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Queue;
@@ -27,7 +25,6 @@ public class MyRouteFinder implements RouteFinder {
                         cells.add(neighbour);
                         neighbour.getVisit();
                         neighbour.getNeighbours();
-                        Utils.printField(globalMap);
                     }
                 }
             }
@@ -64,47 +61,45 @@ public class MyRouteFinder implements RouteFinder {
         private char ch;
 
         public ArrayList<Cell> getNeighbours() {
-            int toleft = x - 1;
-            if (x == 0 || globalMap[toleft][y] == block) {
+            if (y == 0 || globalMap[x][y - 1] == block) { //left
                 left = null;
             } else {
-                if (massOfCells[toleft][y] == null) {
-                    left = new Cell(toleft, y, this);
-                    massOfCells[toleft][y] = left;
+                if (massOfCells[x][y - 1] == null) {
+                    left = new Cell(x, y - 1, this);
+                    massOfCells[x][y - 1] = left;
                     neighbours.add(left);
                 }
             }
-            int toTop = y - 1;
-            if (y == 0 || globalMap[x][toTop] == block) {
+            if (x == 0 || globalMap[x -1][y] == block) { //top
                 top = null;
             } else {
-                if (massOfCells[x][toTop] == null) {
-                    top = new Cell(x, toTop, this);
-                    massOfCells[x][toTop] = top;
+                if (massOfCells[x - 1][y] == null) {
+                    top = new Cell(x - 1, y, this);
+                    massOfCells[x -1][y] = top;
                     neighbours.add(top);
                 }
             }
-            int toRight = x + 1;
-            if (x == globalMap.length - 1 || globalMap[toRight][y] == block) {
+            if (y == globalMap.length - 1 || globalMap[x][y + 1] == block) { //right
                 right = null;
             } else {
-                if (massOfCells[toRight][y] == null) {
-                    right = new Cell(toRight, y, this);
-                    massOfCells[toRight][y] = right;
+                if (massOfCells[x][y + 1] == null) {
+                    right = new Cell(x, y + 1, this);
+                    massOfCells[x][y + 1] = right;
                     neighbours.add(right);
                 }
             }
-            int toBottom = y + 1;
-            if (y == globalMap.length - 1 || globalMap[x][toBottom] == block) {
+
+            if (x == globalMap.length - 1 || globalMap[x + 1][y] == block) { //bottom
                 bottom = null;
             } else {
-                if (massOfCells[toBottom][y] == null) {
-                    bottom = new Cell(x, toBottom, this);
-                    massOfCells[x][toBottom] = bottom;
+                if (massOfCells[x + 1][y] == null) {
+                    bottom = new Cell(x + 1, y, this);
+                    massOfCells[x + 1][y] = bottom;
                     neighbours.add(bottom);
                 }
             }
             return neighbours;
+
         }
 
         public Cell(int x, int y, Cell previous) {
